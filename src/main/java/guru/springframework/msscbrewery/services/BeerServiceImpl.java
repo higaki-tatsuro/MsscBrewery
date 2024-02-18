@@ -1,7 +1,9 @@
 package guru.springframework.msscbrewery.services;
 
+import guru.springframework.msscbrewery.web.mappers.BeerMapper;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

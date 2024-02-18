@@ -2,21 +2,23 @@ package guru.springframework.msscbrewery.web.controller.v2;
 
 import guru.springframework.msscbrewery.services.v2.BeerServiceV2;
 import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2/beer")
+@RequiredArgsConstructor
 public class BeerControllerV2 {
     private final BeerServiceV2 beerService;
-
-    public BeerControllerV2(BeerServiceV2 beerService) {
-        this.beerService = beerService;
-    }
 
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDtoV2> getBeer(@PathVariable("beerId") UUID beerId){
@@ -24,7 +26,7 @@ public class BeerControllerV2 {
     }
 
     @PostMapping("/")
-    public ResponseEntity handlePost(@RequestBody BeerDtoV2 BeerDtoV2){
+    public ResponseEntity handlePost(@Valid @RequestBody BeerDtoV2 BeerDtoV2){
         BeerDtoV2 savedDto = beerService.saveNewBeer(BeerDtoV2);
 
         HttpHeaders headers = new HttpHeaders();
@@ -34,7 +36,7 @@ public class BeerControllerV2 {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 BeerDtoV2){
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDtoV2 BeerDtoV2){
         beerService.updateBeer(beerId, BeerDtoV2);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
